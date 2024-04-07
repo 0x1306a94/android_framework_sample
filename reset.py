@@ -9,6 +9,14 @@ import shutil
 sync_files = [
     "device/softwinner/cupid-p2/BoardConfig.mk",
     "device/softwinner/cupid-p2/cupid_p2.mk",
+    # api
+    "frameworks/base/api/current.txt",
+    "frameworks/base/api/removed.txt",
+    "frameworks/base/api/system-current.txt",
+    "frameworks/base/api/system-removed.txt",
+    "frameworks/base/api/TEST_MAPPING",
+    "frameworks/base/api/test-current.txt",
+    "frameworks/base/api/test-removed.txt",
 ]
 
 delete_files = [
