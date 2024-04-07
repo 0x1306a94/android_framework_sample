@@ -9,6 +9,7 @@ files = [
     "vendor/kk/",
     "device/softwinner/cupid-p2/BoardConfig.mk",
     "device/softwinner/cupid-p2/cupid_p2.mk",
+    "frameworks/base/Android.bp",
 ]
 
 if sys.version_info >= (3, 5):

@@ -9,6 +9,7 @@ import shutil
 sync_files = [
     "device/softwinner/cupid-p2/BoardConfig.mk",
     "device/softwinner/cupid-p2/cupid_p2.mk",
+    "frameworks/base/Android.bp",
     # api
     "frameworks/base/api/current.txt",
     "frameworks/base/api/removed.txt",
