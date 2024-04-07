@@ -1,0 +1,10 @@
+
+service com.kk.http.server /system/bin/kk_http_server
+    class main
+    disabled
+    user root
+    group root system
+    seclabel u:r:kk_http_server:s0
+
+on property:sys.boot_completed=1
+    start com.kk.http.server

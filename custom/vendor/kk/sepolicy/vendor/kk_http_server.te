@@ -1,0 +1,11 @@
+
+type kk_http_server, domain, coredomain;
+type kk_http_server_exec, exec_type, file_type, system_file_type;
+
+init_daemon_domain(kk_http_server)
+net_domain(kk_http_server)
+binder_service(kk_http_server)
+
+allow kk_http_server servicemanager:binder { call transfer };
+
+allow kk_http_server kk_http_server_service:service_manager { add find };

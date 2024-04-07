@@ -1,0 +1,3 @@
+# Set ADB TCP Port
+on property:init.svc.adbd=running
+    setprop persist.adb.tcp.port 5555

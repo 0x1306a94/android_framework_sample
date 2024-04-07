@@ -1,0 +1,2 @@
+
+allow platform_app kk_http_server_service:service_manager { find };
