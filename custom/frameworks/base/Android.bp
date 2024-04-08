@@ -695,7 +695,7 @@ java_defaults {
 
         ":framework-statslog-gen",
 
-        // ":kk_http_server_service_aidl",
+        ":kk_http_server_service_aidl",
     ],
 
     aidl: {

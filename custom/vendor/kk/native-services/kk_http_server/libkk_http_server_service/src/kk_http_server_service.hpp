@@ -1,7 +1,7 @@
 #ifndef __kk_http_server_service_hpp__
 #define __kk_http_server_service_hpp__
 
-#include <com/kk/BnHTTPServerService.h>
+#include <com/kk/http/BnHTTPServerService.h>
 
 #include <binder/BinderService.h>
 
@@ -16,7 +16,7 @@ struct HttpService;
 
 namespace android {
 class KKHTTPServerService : public BinderService<KKHTTPServerService>,
-                                   public virtual ::com::kk::BnHTTPServerService,
+                                   public virtual ::com::kk::http::BnHTTPServerService,
                                    public virtual IBinder::DeathRecipient {
   public:
     // Implementation of BinderService<T>

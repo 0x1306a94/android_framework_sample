@@ -2,7 +2,7 @@
 filegroup {
     name: "kk_http_server_service_aidl",
     srcs: [
-        "aidl/com/kk/IHTTPServerService.aidl",
+        "aidl/com/kk/http/IHTTPServerService.aidl",
     ],
     path: "aidl",
 }

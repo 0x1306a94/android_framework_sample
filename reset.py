@@ -12,12 +12,8 @@ sync_files = [
     "frameworks/base/Android.bp",
     # api
     "frameworks/base/api/current.txt",
-    "frameworks/base/api/removed.txt",
-    "frameworks/base/api/system-current.txt",
-    "frameworks/base/api/system-removed.txt",
-    "frameworks/base/api/TEST_MAPPING",
-    "frameworks/base/api/test-current.txt",
-    "frameworks/base/api/test-removed.txt",
+    # build
+    "build/make/core/tasks/check_boot_jars/package_whitelist.txt",
 ]
 
 delete_files = [

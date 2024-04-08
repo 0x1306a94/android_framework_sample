@@ -11,4 +11,3 @@ allow kk_http_server self:capability net_raw;
 
 allow kk_http_server servicemanager:binder { call transfer };
 allow kk_http_server kk_http_server_service:service_manager { add find };
-
