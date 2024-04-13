@@ -9,7 +9,7 @@ cc_binary {
         "-Wno-unused-label",
     ],
     srcs: [
-        "main_kk_http_server.cpp",
+        "main.cpp",
     ],
     local_include_dirs: [
     
@@ -26,7 +26,6 @@ cc_binary {
     ],
     init_rc: [
         "init.kk_http_server.rc",
-        // "init.set_adb_tcp_port.rc",
     ]
 }
 

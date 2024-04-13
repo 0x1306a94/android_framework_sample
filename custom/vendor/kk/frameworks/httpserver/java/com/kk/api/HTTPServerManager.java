@@ -6,6 +6,9 @@ import android.os.ServiceManager;
 
 import com.kk.http.IHTTPServerService;
 
+/**
+ * @hide
+ */
 public class HTTPServerManager {
     private static HTTPServerManager mInstance = null;
     private static String SERVICE_NAME = "com.kk.http.server";

@@ -1,0 +1,35 @@
+
+filegroup {
+    name: "kk_http_server_service_aidl",
+    srcs: [
+        "aidl/com/kk/http/IHTTPServerService.aidl",
+    ],
+    path: "aidl",
+}
+
+cc_library_shared {
+    name: "libkk_http_server_service_aidl",
+    vendor_available: true,
+    aidl: {
+        export_aidl_headers: true,
+        local_include_dirs: [
+            "aidl"
+        ],
+        include_dirs: [
+        ],
+    },
+    srcs: [
+        ":kk_http_server_service_aidl",
+    ],
+    shared_libs: [
+        "liblog",
+        "libcutils",
+        "libutils",
+        "libbinder",
+    ],
+    cflags: [
+        "-Werror",
+        "-Wall",
+        "-Wextra",
+    ],
+}

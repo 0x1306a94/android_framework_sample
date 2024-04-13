@@ -1,8 +1,0 @@
-java_library {
-    name: "com.kk.http.api",
-    installable: true,
-    srcs: [
-        "java/**/*.java",
-    ]
-}
-
