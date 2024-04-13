@@ -115,7 +115,5 @@ BOARD_HAVE_BLUETOOTH_NAME :=
 # sensor
 SW_BOARD_USES_SENSORS_TYPE := aw
 
-############################ kk SELinux ######################################
-BOARD_SEPOLICY_DIRS += vendor/kk/sepolicy/vendor
-BOARD_PLAT_PUBLIC_SEPOLICY_DIR += vendor/kk/sepolicy/public
-BOARD_PLAT_PRIVATE_SEPOLICY_DIR += vendor/kk/sepolicy/private
+include vendor/kk/KKBoardConfig.mk
+
