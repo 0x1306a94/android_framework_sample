@@ -1,0 +1,20 @@
+android_app {
+    name: "HTTPServerManager",
+    srcs: [
+        "java/**/*.java",
+    ],
+    resource_dirs: [
+        "res",
+    ],
+    manifest: "AndroidManifest.xml",
+    platform_apis: true,
+    sdk_version: "",
+    certificate: "platform",
+    product_specific: true,
+    static_libs: [
+        "libkkhttpserver-api",
+        "androidx.appcompat_appcompat",
+        "com.google.android.material_material",
+        "androidx-constraintlayout_constraintlayout",
+    ],
+}

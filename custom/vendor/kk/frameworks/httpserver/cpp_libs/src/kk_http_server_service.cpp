@@ -6,6 +6,9 @@
 #include <hv/hlog.h>
 
 // #include <chrono>
+#include <mutex>
+
+static std::mutex g_mutex;
 
 namespace android {
 void libhv_log_handler(int loglevel, const char *buf, int len) {
@@ -48,6 +51,8 @@ KKHTTPServerService::KKHTTPServerService()
 }
 
 KKHTTPServerService::~KKHTTPServerService() {
+    std::lock_guard<std::mutex> lock(g_mutex);
+    stopServer();
     KK_SERVER_LOGD("destory %p", this);
 }
 
@@ -61,19 +66,22 @@ void KKHTTPServerService::binderDied(const wp<IBinder> &who) {
 }
 
 binder::Status KKHTTPServerService::start() {
-    KK_SERVER_LOGD("start");
+    std::lock_guard<std::mutex> lock(g_mutex);
+    KK_SERVER_LOGD("binder call start");
     startServer();
     return binder::Status::ok();
 }
 
 binder::Status KKHTTPServerService::stop() {
-    KK_SERVER_LOGD("stop");
+    std::lock_guard<std::mutex> lock(g_mutex);
+    KK_SERVER_LOGD("binder call stop");
     stopServer();
     return binder::Status::ok();
 }
 
 binder::Status KKHTTPServerService::status(int32_t *_aidl_return) {
-    KK_SERVER_LOGD("status");
+    std::lock_guard<std::mutex> lock(g_mutex);
+    KK_SERVER_LOGD("binder call status");
     if (m_runing) {
         *_aidl_return = 1;
     } else {
@@ -134,11 +142,11 @@ void KKHTTPServerService::startServer() {
 }
 
 void KKHTTPServerService::stopServer() {
-    if (!m_thread || !m_runing) {
+    if (!m_runing) {
         return;
     }
     m_server->stop();
-    if (m_thread->joinable()) {
+    if (m_thread != nullptr && m_thread->joinable()) {
         m_thread->join();
     }
     m_thread.reset();

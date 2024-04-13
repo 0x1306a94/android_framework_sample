@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">HTTPServerManager</string>
+    <string name="server_status">server status</string>
+    <string name="start_server_button">Start Server</string>
+    <string name="stop_server_button">Stop Server</string>
+    <string name="status_server_button">Status Server</string>
+</resources>

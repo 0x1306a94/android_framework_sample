@@ -1,17 +1,16 @@
-package com.kk.http.api;
+package com.kk.api.http;
 
 import android.os.RemoteException;
 import android.os.IBinder;
 import android.os.ServiceManager;
+import android.util.Log;
 
 import com.kk.http.IHTTPServerService;
 
-/**
- * @hide
- */
 public class HTTPServerManager {
     private static HTTPServerManager mInstance = null;
     private static String SERVICE_NAME = "com.kk.http.server";
+    private static final String TAG = "HTTPServerManagerApp";
 
     public static HTTPServerManager getInstance() {
         synchronized (HTTPServerManager.class) {
@@ -37,7 +36,7 @@ public class HTTPServerManager {
         try {
             mService.start();
         } catch (RemoteException e) {
-            e.printStackTrace();
+            Log.e(TAG, Log.getStackTraceString(e));
         }
     }
 
@@ -45,7 +44,7 @@ public class HTTPServerManager {
         try {
             mService.stop();
         } catch (RemoteException e) {
-            e.printStackTrace();
+            Log.e(TAG, Log.getStackTraceString(e));
         }
     }
 
@@ -54,7 +53,7 @@ public class HTTPServerManager {
         try {
             ret = mService.status();
         } catch (RemoteException e) {
-            e.printStackTrace();
+            Log.e(TAG, Log.getStackTraceString(e));
         }
         return ret;
     }

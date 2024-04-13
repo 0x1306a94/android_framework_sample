@@ -4,7 +4,8 @@ PRODUCT_PACKAGES += \
     libhv \
     libkk_http_server_service_aidl \
     libkk_http_server_service \
-    kk_http_server
+    kk_http_server \
+	HTTPServerManager
 
 ############################ adb network debugging port ######################################
 ifeq ($(TARGET_BUILD_VARIANT),eng)
