@@ -1,96 +1,35 @@
 
-aidl_interface {
-    name: "kkhttpserver-aidl-interfaces",
-    local_include_dir: "aidl",
-    backend: {
-        cpp: {
-            enabled: true,
-        },
-        java: {
-            enabled: true,
-        },
-    },
+filegroup {
+    name: "kk_http_server_service_aidl",
     srcs: [
         "aidl/com/kk/http/IHTTPServerService.aidl",
     ],
-    api_dir: "aidl/api",
-    versions: ["1"],
+    path: "aidl",
 }
 
 cc_library_shared {
-    name: "libkk_http_server_service",
+    name: "libkk_http_server_service_aidl",
     vendor_available: true,
-    cflags: [
-        "-std=c++11",
-        "-fexceptions",
-        "-Wno-unused-parameter",
-        "-Wno-unused-function",
-        "-Wno-unused-label",
-    ],
+    aidl: {
+        export_aidl_headers: true,
+        local_include_dirs: [
+            "aidl"
+        ],
+        include_dirs: [
+        ],
+    },
     srcs: [
-        "cpp_libs/src/**/*.cpp",
-    ],
-    local_include_dirs: [
-        "cpp_libs/src"
-    ],
-    export_shared_lib_headers: [
-        "libbinder",
-    ],
-    export_include_dirs: [
-        "."
+        ":kk_http_server_service_aidl",
     ],
     shared_libs: [
-        "kkhttpserver-aidl-interfaces-cpp",
-        "libhv",
-        "libbase",
         "liblog",
         "libcutils",
         "libutils",
         "libbinder",
     ],
-}
-
-cc_binary {
-    name: "kk_http_server",
-    vendor_available: true,
     cflags: [
-        "-std=c++11",
-        "-fexceptions",
-        "-Wno-unused-parameter",
-        "-Wno-unused-function",
-        "-Wno-unused-label",
+        "-Werror",
+        "-Wall",
+        "-Wextra",
     ],
-    srcs: [
-        "cmd/main.cpp",
-    ],
-    local_include_dirs: [
-    
-    ],
-    shared_libs: [
-        "libkk_http_server_service",
-        "kkhttpserver-aidl-interfaces-cpp",
-        "libhv",
-        "libbase",
-        "liblog",
-        "libcutils",
-        "libutils",
-        "libbinder",
-    ],
-    init_rc: [
-        "init.kk_http_server.rc",
-    ]
 }
-
-
-java_library_static {
-    name: "com.kk.httpserver.api",
-    installable: true,
-    srcs: [
-        "java/**/*.java",
-    ],
-    static_libs:[
-        "kkhttpserver-aidl-interfaces-java",
-    ]
-}
-
-

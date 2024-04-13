@@ -1,0 +1,36 @@
+
+
+cc_library_shared {
+    name: "libkk_http_server_service",
+    vendor_available: true,
+    cflags: [
+        "-std=c++11",
+        "-fexceptions",
+        "-Wno-unused-parameter",
+        "-Wno-unused-function",
+        "-Wno-unused-label",
+    ],
+    srcs: [
+        "src/**/*.cpp",
+    ],
+    local_include_dirs: [
+        "src"
+    ],
+    export_shared_lib_headers: [
+        "libbinder",
+        "libkk_http_server_service_aidl",
+    ],
+    export_include_dirs: [
+        "."
+    ],
+    shared_libs: [
+        "libkk_http_server_service_aidl",
+        "libhv",
+        "libbase",
+        "liblog",
+        "libcutils",
+        "libutils",
+        "libbinder",
+    ],
+}
+
