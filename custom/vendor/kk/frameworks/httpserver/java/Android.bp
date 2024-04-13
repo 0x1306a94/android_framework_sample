@@ -1,8 +1,0 @@
-java_library_static {
-    name: "com.kk.httpserver.api",
-    installable: true,
-    srcs: [
-        "java/**/*.java",
-        ":kk_http_server_service_aidl",
-    ]
-}
