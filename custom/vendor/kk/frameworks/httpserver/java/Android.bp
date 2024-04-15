@@ -1,6 +1,7 @@
 java_library {
     name: "libkkhttpserver-api",
-    installable: true,
+    installable: false,
+    product_specific: true,
     srcs: [
         "com/kk/**/*.java",
         ":kk_http_server_service_aidl",
