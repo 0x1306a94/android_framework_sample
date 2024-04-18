@@ -89,16 +89,17 @@ binder::Status KKHTTPServerService::status(int32_t *_aidl_return) {
 }
 
 void KKHTTPServerService::setupRouter() {
-    m_router->GET("/ping", [](HttpRequest *req, HttpResponse *resp) {
+    m_router->Static("/", "/data/kkhttpserver/www/html");
+    m_router->GET("/api/ping", [](HttpRequest *req, HttpResponse *resp) {
         return resp->String("pong");
     });
 
-    m_router->GET("/data", [](HttpRequest *req, HttpResponse *resp) {
+    m_router->GET("/api/data", [](HttpRequest *req, HttpResponse *resp) {
         static char data[] = "0123456789";
         return resp->Data(data, 10);
     });
 
-    m_router->GET("/get", [](HttpRequest *req, HttpResponse *resp) {
+    m_router->GET("/api/get", [](HttpRequest *req, HttpResponse *resp) {
         resp->json["origin"] = req->client_addr.ip;
         resp->json["url"] = req->url;
         resp->json["args"] = req->query_params;
@@ -106,11 +107,11 @@ void KKHTTPServerService::setupRouter() {
         return 200;
     });
 
-    m_router->POST("/echo", [](const HttpContextPtr &ctx) {
+    m_router->POST("/api/echo", [](const HttpContextPtr &ctx) {
         return ctx->send(ctx->body(), ctx->type());
     });
 
-    m_router->GET("/paths", [&](HttpRequest *req, HttpResponse *resp) {
+    m_router->GET("/api/paths", [&](HttpRequest *req, HttpResponse *resp) {
         return resp->Json(this->m_router->Paths());
     });
 }
@@ -124,7 +125,7 @@ void KKHTTPServerService::startServer() {
     hlog_set_handler(libhv_log_handler);
 
     m_server->registerHttpService(m_router.get());
-    m_server->setPort(8888);
+    m_server->setPort(8087);
     m_server->setThreadNum(4);
     m_thread = std::make_unique<std::thread>([this] {
         // KK_SERVER_LOGD("sleep 10s");
