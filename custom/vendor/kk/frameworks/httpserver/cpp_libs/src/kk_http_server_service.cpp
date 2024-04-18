@@ -43,10 +43,9 @@ KKHTTPServerService::KKHTTPServerService()
     , m_router(std::make_unique<hv::HttpService>())
     , m_thread(nullptr) {
 
+    std::lock_guard<std::mutex> lock(g_mutex);
     KK_SERVER_LOGD("create %p", this);
-
     setupRouter();
-
     startServer();
 }
 
@@ -138,7 +137,6 @@ void KKHTTPServerService::startServer() {
 
         this->m_thread.reset();
     });
-    m_thread->detach();
 }
 
 void KKHTTPServerService::stopServer() {
