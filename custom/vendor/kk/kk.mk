@@ -10,10 +10,10 @@ PRODUCT_PACKAGES += \
 ############################ adb network debugging port ######################################
 ifeq ($(TARGET_BUILD_VARIANT),eng)
     PRODUCT_COPY_FILES += \
-        vendor/kk/init.set_adb_tcp_port.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/init.set_adb_tcp_port.rc
+        vendor/kk/init.set_adb_tcp_port.rc:system/etc/init/init.set_adb_tcp_port.rc
 endif
 
 ifeq ($(TARGET_BUILD_VARIANT),userdebug)
     PRODUCT_COPY_FILES += \
-        vendor/kk/init.set_adb_tcp_port.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/init.set_adb_tcp_port.rc
+        vendor/kk/init.set_adb_tcp_port.rc:system/etc/init/init.set_adb_tcp_port.rc
 endif

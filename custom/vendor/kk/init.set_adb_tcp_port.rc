@@ -1,3 +1,4 @@
 # Set ADB TCP Port
 on property:init.svc.adbd=running
     setprop persist.adb.tcp.port 5555
+    exec u:r:init:s0 toolbox echo "ADB TCP Port set to 5555" > /dev/kmsg

@@ -10,7 +10,7 @@ import android.widget.TextView;
 import com.kk.api.http.HTTPServerManager;
 
 public class MainActivity extends Activity implements View.OnClickListener {
-    private static final String TAG = "HTTPServerManagerApp";
+    private static final String TAG = "KKHTTPServerManagerApp";
     private Button start_btn, stop_btn, status_btn;
     private TextView textView;
 
@@ -28,22 +28,31 @@ public class MainActivity extends Activity implements View.OnClickListener {
         status_btn.setOnClickListener(this);
 
         textView = findViewById(R.id.txt_server_status);
+
+        this.updateStatus();
+    }
+
+    private void updateStatus() {
+        HTTPServerManager mgr = HTTPServerManager.getInstance();
+        int ret = mgr.status();
+        Log.v(TAG, "status " + ret);
+        textView.setText("Current Status: " + ret);
     }
 
     @Override
     public void onClick(View view) {
         HTTPServerManager mgr = HTTPServerManager.getInstance();
         if (view == start_btn) {
-            Log.v(TAG, "click start server ");
+            Log.v(TAG, "click start server");
             mgr.start();
+            this.updateStatus();
         } else if (view == stop_btn) {
-            Log.v(TAG, "click stop server ");
+            Log.v(TAG, "click stop server");
             mgr.stop();
+            this.updateStatus();
         } else if (view == status_btn) {
-            Log.v(TAG, "click status server ");
-            int ret = mgr.status();
-            Log.v(TAG, "status " + ret);
-            textView.setText("Current Status: " + ret);
+            Log.v(TAG, "click status server");
+            this.updateStatus();
         }
     }
 }

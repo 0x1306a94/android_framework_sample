@@ -40,7 +40,7 @@ class KKHTTPServerService : public BinderService<KKHTTPServerService>,
   private:
     std::unique_ptr<hv::HttpServer> m_server;
     std::unique_ptr<hv::HttpService> m_router;
-    std::shared_ptr<std::thread> m_thread;
+    std::unique_ptr<std::thread> m_thread;
     std::atomic<bool> m_runing{false};
 };
 };  // namespace android

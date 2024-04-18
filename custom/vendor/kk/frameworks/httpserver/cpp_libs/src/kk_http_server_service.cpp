@@ -42,8 +42,7 @@ KKHTTPServerService::KKHTTPServerService()
     : m_server(std::make_unique<hv::HttpServer>())
     , m_router(std::make_unique<hv::HttpService>())
     , m_thread(nullptr) {
-
-    std::lock_guard<std::mutex> lock(g_mutex);
+    
     KK_SERVER_LOGD("create %p", this);
     setupRouter();
     startServer();
@@ -121,12 +120,13 @@ void KKHTTPServerService::startServer() {
         return;
     }
 
+    KK_SERVER_LOGD("start server ...");
     hlog_set_handler(libhv_log_handler);
 
     m_server->registerHttpService(m_router.get());
     m_server->setPort(8888);
     m_server->setThreadNum(4);
-    m_thread = std::make_shared<std::thread>([&] {
+    m_thread = std::make_unique<std::thread>([this] {
         // KK_SERVER_LOGD("sleep 10s");
         // std::this_thread::sleep_for(std::chrono::seconds(10));
         KK_SERVER_LOGD("start server");
@@ -134,8 +134,6 @@ void KKHTTPServerService::startServer() {
         int code = this->m_server->run();
         KK_SERVER_LOGD("stop server %d", code);
         this->m_runing = false;
-
-        this->m_thread.reset();
     });
 }
 
@@ -144,10 +142,12 @@ void KKHTTPServerService::stopServer() {
         return;
     }
     m_server->stop();
-    if (m_thread != nullptr && m_thread->joinable()) {
+    if (m_thread) {
+        KK_SERVER_LOGD("thread join ....");
         m_thread->join();
     }
     m_thread.reset();
+    KK_SERVER_LOGD("stop finish");
 }
 
 };  // namespace android
