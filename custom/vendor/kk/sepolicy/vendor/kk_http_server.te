@@ -1,4 +1,4 @@
-
+type kk_http_web_data_file, file_type, data_file_type, core_data_file_type;
 type kk_http_server, domain, coredomain;
 type kk_http_server_exec, exec_type, file_type, system_file_type;
 
@@ -11,3 +11,7 @@ allow kk_http_server self:capability net_raw;
 
 allow kk_http_server servicemanager:binder { call transfer };
 allow kk_http_server kk_http_server_service:service_manager { add find };
+
+allow kk_http_server kk_http_web_data_file:file r_file_perms;
+allow kk_http_server kk_http_web_data_file:dir r_file_perms;
+

@@ -1,5 +1,5 @@
 
-on init
+on late-init
     mkdir /data/kkhttpserver 0755 root root
     mkdir /data/kkhttpserver/www 0755 root root
 
@@ -12,4 +12,3 @@ service com.kk.http.server /system/bin/kk_http_server
 
 on property:sys.boot_completed=1
     start com.kk.http.server
-
