@@ -8,7 +8,7 @@ binder_service(kk_http_server)
 domain_auto_trans(shell, kk_http_server_exec, kk_http_server)
 
 #============= net ==============
-allow kk_http_server self:capability net_raw;
+allow kk_http_server self:capability { net_bind_service net_raw};
 
 #============= service ==============
 allow kk_http_server servicemanager:binder { call transfer };
