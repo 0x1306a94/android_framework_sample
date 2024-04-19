@@ -1,5 +1,5 @@
 
-on late-init
+on boot
     mkdir /data/kkhttpserver 0755 root root
     mkdir /data/kkhttpserver/www 0755 root root
 

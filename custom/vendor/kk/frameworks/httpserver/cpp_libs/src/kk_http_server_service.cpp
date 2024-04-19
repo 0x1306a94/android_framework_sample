@@ -89,7 +89,12 @@ binder::Status KKHTTPServerService::status(int32_t *_aidl_return) {
 }
 
 void KKHTTPServerService::setupRouter() {
-    m_router->Static("/", "/data/kkhttpserver/www/html");
+    // m_router->Static("/", "/data/kkhttpserver/www/html");
+    m_router->document_root = "/data/kkhttpserver/www/html";
+    m_router->Static("/css", "/data/kkhttpserver/www/html/css");
+    m_router->Static("/fonts", "/data/kkhttpserver/www/html/fonts");
+    m_router->Static("/img", "/data/kkhttpserver/www/html/img");
+    m_router->Static("/js", "/data/kkhttpserver/www/html/js");
     m_router->GET("/api/ping", [](HttpRequest *req, HttpResponse *resp) {
         return resp->String("pong");
     });
