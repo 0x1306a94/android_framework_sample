@@ -1,2 +1,2 @@
 
-type kk_http_server_service,      service_manager_type;
+type kk_http_server_service, service_manager_type;

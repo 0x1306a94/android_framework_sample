@@ -1,0 +1,4 @@
+persist.kk.http.web.root u:object_r:kk_http_server_prop:s0
+kk.http.web.root u:object_r:kk_http_server_prop:s0
+persist.kk.http.port u:object_r:kk_http_server_prop:s0
+kk.http.port u:object_r:kk_http_server_prop:s0

@@ -11,4 +11,6 @@ service com.kk.http.server /system/bin/kk_http_server
     seclabel u:r:kk_http_server:s0
 
 on property:sys.boot_completed=1
+    setprop persist.kk.http.web.root /data/kkhttpserver/www/html
+    setprop persist.kk.http.port 8087
     start com.kk.http.server

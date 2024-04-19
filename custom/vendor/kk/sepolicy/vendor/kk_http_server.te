@@ -5,13 +5,22 @@ type kk_http_server_exec, exec_type, file_type, system_file_type;
 init_daemon_domain(kk_http_server)
 net_domain(kk_http_server)
 binder_service(kk_http_server)
+domain_auto_trans(shell, kk_http_server_exec, kk_http_server)
 
 #============= net ==============
 allow kk_http_server self:capability net_raw;
 
+#============= service ==============
 allow kk_http_server servicemanager:binder { call transfer };
 allow kk_http_server kk_http_server_service:service_manager { add find };
 
+#============= file ==============
 allow kk_http_server kk_http_web_data_file:file r_file_perms;
-allow kk_http_server kk_http_web_data_file:dir r_file_perms;
+allow kk_http_server kk_http_web_data_file:dir { r_file_perms search };
+
+#============= prop ==============
+# allow kk_http_server kk_http_server_prop:file { getattr open read };
+get_prop(kk_http_server, kk_http_server_prop);
+#set_prop(kk_http_server, kk_http_server_prop);
+get_prop(kk_http_server, exported2_default_prop);
 

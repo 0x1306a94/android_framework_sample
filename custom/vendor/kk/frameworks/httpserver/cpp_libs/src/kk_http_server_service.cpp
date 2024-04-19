@@ -1,9 +1,13 @@
 #include "kk_http_server_service.hpp"
+#include "kk_http_properties.h"
 
-#include "kk_http_server_log.h"
+#include <android-base/properties.h>
+#include <cutils/properties.h>
 
 #include <hv/HttpServer.h>
 #include <hv/hlog.h>
+
+#include "kk_http_server_log.h"
 
 // #include <chrono>
 #include <mutex>
@@ -42,7 +46,6 @@ KKHTTPServerService::KKHTTPServerService()
     : m_server(std::make_unique<hv::HttpServer>())
     , m_router(std::make_unique<hv::HttpService>())
     , m_thread(nullptr) {
-    
     KK_SERVER_LOGD("create %p", this);
     setupRouter();
     startServer();
@@ -54,13 +57,11 @@ KKHTTPServerService::~KKHTTPServerService() {
     KK_SERVER_LOGD("destory %p", this);
 }
 
-char const *KKHTTPServerService::getServiceName() {
-    return "com.kk.http.server";
-}
+char const *KKHTTPServerService::getServiceName() { return "com.kk.http.server"; }
 
 void KKHTTPServerService::binderDied(const wp<IBinder> &who) {
-    KK_SERVER_LOGE("%s: Java client's binder died, removing it from the list of active clients， who=%p",
-                     __FUNCTION__, &who);
+    KK_SERVER_LOGE("%s: Java client's binder died, removing it from the list of active clients， who=%p", __FUNCTION__,
+                   &who);
 }
 
 binder::Status KKHTTPServerService::start() {
@@ -88,16 +89,16 @@ binder::Status KKHTTPServerService::status(int32_t *_aidl_return) {
     return binder::Status::ok();
 }
 
+#define KKHTTP_DEFAULT_WEB_ROOT "/data/kkhttpserver/www/html"
 void KKHTTPServerService::setupRouter() {
-    // m_router->Static("/", "/data/kkhttpserver/www/html");
-    m_router->document_root = "/data/kkhttpserver/www/html";
-    m_router->Static("/css", "/data/kkhttpserver/www/html/css");
-    m_router->Static("/fonts", "/data/kkhttpserver/www/html/fonts");
-    m_router->Static("/img", "/data/kkhttpserver/www/html/img");
-    m_router->Static("/js", "/data/kkhttpserver/www/html/js");
-    m_router->GET("/api/ping", [](HttpRequest *req, HttpResponse *resp) {
-        return resp->String("pong");
-    });
+    std::string pro_doc_root = base::GetProperty(KKHTTP_PROPERTY_WEB_ROOT, "");
+    if (pro_doc_root.empty()) {
+        pro_doc_root = base::GetProperty(KKHTTP_PROPERTY_PERSIST_WEB_ROOT, KKHTTP_DEFAULT_WEB_ROOT);
+    }
+
+    KK_SERVER_LOGI("document_root: %s", pro_doc_root.c_str());
+    m_router->document_root = pro_doc_root;
+    m_router->GET("/api/ping", [](HttpRequest *req, HttpResponse *resp) { return resp->String("pong"); });
 
     m_router->GET("/api/data", [](HttpRequest *req, HttpResponse *resp) {
         static char data[] = "0123456789";
@@ -112,13 +113,9 @@ void KKHTTPServerService::setupRouter() {
         return 200;
     });
 
-    m_router->POST("/api/echo", [](const HttpContextPtr &ctx) {
-        return ctx->send(ctx->body(), ctx->type());
-    });
+    m_router->POST("/api/echo", [](const HttpContextPtr &ctx) { return ctx->send(ctx->body(), ctx->type()); });
 
-    m_router->GET("/api/paths", [&](HttpRequest *req, HttpResponse *resp) {
-        return resp->Json(this->m_router->Paths());
-    });
+    m_router->GET("/api/paths", [&](HttpRequest *req, HttpResponse *resp) { return resp->Json(this->m_router->Paths()); });
 }
 
 void KKHTTPServerService::startServer() {
@@ -129,16 +126,21 @@ void KKHTTPServerService::startServer() {
     KK_SERVER_LOGD("start server ...");
     hlog_set_handler(libhv_log_handler);
 
+    std::string pro_port = base::GetProperty(KKHTTP_PROPERTY_PORT, "");
+    if (pro_port.empty()) {
+        pro_port = base::GetProperty(KKHTTP_PROPERTY_PERSIST_PORT, "8087");
+    }
+
     m_server->registerHttpService(m_router.get());
-    m_server->setPort(8087);
+    m_server->setPort(std::atoi(pro_port.c_str()));
     m_server->setThreadNum(4);
-    m_thread = std::make_unique<std::thread>([this] {
+    m_thread = std::make_unique<std::thread>([this, pro_port] {
         // KK_SERVER_LOGD("sleep 10s");
         // std::this_thread::sleep_for(std::chrono::seconds(10));
-        KK_SERVER_LOGD("start server");
+        KK_SERVER_LOGD("start server port: %s", pro_port.c_str());
         this->m_runing = true;
         int code = this->m_server->run();
-        KK_SERVER_LOGD("stop server %d", code);
+        KK_SERVER_LOGD("stop server port: %s code: %d", pro_port.c_str(), code);
         this->m_runing = false;
     });
 }
